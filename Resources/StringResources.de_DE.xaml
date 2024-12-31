@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--Types-->
+    <system:String x:Key="normal">Normal</system:String>
+    <system:String x:Key="fighting">Kampf</system:String>
+    <system:String x:Key="flying">Flug</system:String>
+    <system:String x:Key="poison">Gift</system:String>
+    <system:String x:Key="ground">Boden</system:String>
+    <system:String x:Key="rock">Gestein</system:String>
+    <system:String x:Key="bug">Käfer</system:String>
+    <system:String x:Key="ghost">Geist</system:String>
+    <system:String x:Key="fire">Feuer</system:String>
+    <system:String x:Key="water">Wasser</system:String>
+    <system:String x:Key="grass">Pflanze</system:String>
+    <system:String x:Key="electric">Elektro</system:String>
+    <system:String x:Key="psychic">Psycho</system:String>
+    <system:String x:Key="ice">Eis</system:String>
+    <system:String x:Key="dragon">Drache</system:String>
+    <system:String x:Key="steel">Stahl</system:String>
+    <system:String x:Key="dark">Unlicht</system:String>
+    <system:String x:Key="fairy">Fee</system:String>
+
+    <!--Names-->
+    <system:String x:Key="shedinja">Ninjatom</system:String>
+
+    <!--buttons-->
+    <system:String x:Key="check_b">überprüfe</system:String>
+    <system:String x:Key="reset_b">zurücksetzen</system:String>
+    <system:String x:Key="optimal_b">finde Optimum</system:String>
+    <!--tabs-->
+    <system:String x:Key="single_tab">einzel Typen</system:String>
+    <system:String x:Key="dual_tab">Typ-Kombis</system:String>
+    <system:String x:Key="optimal_tab">Optimum</system:String>
+    <!--labels-->
+    <system:String x:Key="gen_l">Gen</system:String>
+    <system:String x:Key="types_l">Typen (deiner Attacken)</system:String>
+    <system:String x:Key="strengths_l">Stärken</system:String>
+    <system:String x:Key="double_strengths_l">Doppel-Stärken</system:String>
+    <system:String x:Key="neutral_l">Neutral</system:String>
+    <system:String x:Key="weaknesses_l">Schwächen</system:String>
+    <system:String x:Key="double_weaknesses_l">Doppel-Schwächen</system:String>
+    <system:String x:Key="immune_l">Immun</system:String>
+    <system:String x:Key="points_l">Punkte</system:String>
+    <system:String x:Key="verdict_l">Bewertung</system:String>
+    <system:String x:Key="language_l">Sprache</system:String>
+    <!--other UI-->
+    <system:String x:Key="show_actual_cbc">zeige nur existierende Typen/Typkombinationen</system:String>
+    <system:String x:Key="min_optimal_rbc">min Typen für Tier n</system:String>
+    <system:String x:Key="max_optimal_rbc">max Punkte mit n Typen</system:String>
+    <system:String x:Key="shedinja_cbc">berücksichtige Ninjatom?</system:String>
+
+    <!--words-->
+    <system:String x:Key="except">außer</system:String>
+    <system:String x:Key="nothing">nichts</system:String>
+    <system:String x:Key="with">mit</system:String>
+    <system:String x:Key="Optimal">Optimale</system:String>
+    <system:String x:Key="tier">Tier</system:String>
+    <system:String x:Key="Tier">Tier</system:String>
+    <system:String x:Key="coveradge">Coveradge</system:String>
+    <system:String x:Key="types">Typen</system:String>
+    <system:String x:Key="Points">Punkte</system:String>
+    <system:String x:Key="possible">möglich</system:String>
+
+    <!--sentences-->
+    <system:String x:Key="strength_text">Du hast sehr Effektive Attacken gegen:</system:String>
+    <system:String x:Key="double_strength_text">Du hast super Effektive Attacken gegen:</system:String>
+    <system:String x:Key="neutral_text">Du hast immerhin neutrale Attacken gegen:</system:String>
+    <system:String x:Key="weakness_text">Du hast nur nicht sehr Effektive Attacken gegen:</system:String>
+    <system:String x:Key="double_weakness_text">Du hast nur doppelt nicht sehr Effektive Attacken gegen:</system:String>
+    <system:String x:Key="immune_text">Du hast keine Attacken gegen:</system:String>
+    <!--verdicts-->
+    <system:String x:Key="tier_0_verdict">TIER 0 Coverage. Es gibt Typen, die du nicht bekämpfen kannst!</system:String>
+    <system:String x:Key="tier_0.5_verdict">TIER 0.5 Coverage. Du kannst jeden Typen gerade so bekämpfen.</system:String>
+    <system:String x:Key="tier_1_verdict">TIER 1 Coverage. Du kannst jeden Typen bekämpfen.</system:String>
+    <system:String x:Key="tier_2_verdict">TIER 2 Coverage! Du triffst jeden Typen mindestens neutral.</system:String>
+    <system:String x:Key="tier_3_verdict">TIER 3 Coverage! Du triffst jeden Typen sehr Effektiv!</system:String>
+
+    <!--languages-->
+    <system:String x:Key="de_DE">Deutsch</system:String>
+    <system:String x:Key="en_US">Englisch</system:String>
+
+</ResourceDictionary>

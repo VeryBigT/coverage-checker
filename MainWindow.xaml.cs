@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-using static coverage_checker.Type; 
+using static coverage_checker.Type;
+using static coverage_checker.StringHelper;
+using static coverage_checker.IteratorHelper;
+using static coverage_checker.TypeMethods;
 using DualType = System.Tuple<coverage_checker.Type, coverage_checker.Type>;
 
 namespace coverage_checker
@@ -35,8 +39,8 @@ namespace coverage_checker
 		private ISet<DualType> dualTypes;
 
 		private int gen;
-		private bool showActual = true, ninjatom = false;
-		int immunities, weaknesses, neutrals, strengths, points, numTypes, dualImmunities, dualWeaknesses, 
+		private bool showActual = true, shedinja = false;
+		int immunities, weaknesses, neutrals, strengths, points, numTypes, dualImmunities, dualWeaknesses,
 			dualNeutrals, dualStrengths, dualPoints, dualNumTypes,
 			dualDoubleStrengths, dualDoubleWeaknesses, tier, dualTier;
 		private bool firstActual = true, firstSelection = true;
@@ -44,9 +48,9 @@ namespace coverage_checker
 		public MainWindow()
 		{
 			InitializeComponent();
-			checkBoxes = new CheckBox[] { fire_cb, water_cb, ghost_cb, fly_cb, dragon_cb,
-				bug_cb, grass_cb, ground_cb, stone_cb, dark_cb, electric_cb, ice_cb, poison_cb,
-				fairy_cb, steel_cb, fight_cb, normal_cb, psychic_cb};
+			checkBoxes = new CheckBox[] { fire_cb, water_cb, ghost_cb, flying_cb, dragon_cb,
+				bug_cb, grass_cb, ground_cb, rock_cb, dark_cb, electric_cb, ice_cb, poison_cb,
+				fairy_cb, steel_cb, fighting_cb, normal_cb, psychic_cb};
 			textBoxes = new TextBox[] { strongTextBox, neutralTextBox, weakTextBox, immuneTextBox,
 				verdictTextBox, pointsTextBox, dualStrongTextBox, dualDoubleStrongTextBox, dualNeutralTextBox,
 				dualWeakTextBox, dualDoubleWeakTextBox, dualImmuneTextBox, dualVerdictTextBox, dualPointsTextBox};
@@ -62,7 +66,7 @@ namespace coverage_checker
 			dualDoubleWeakTypes = new Dictionary<DualType, List<Type>>();
 			dualImmuneTypes = new List<DualType>();
 			gen = 3;
-			dualTypes = TypeMethods.ActualDualTypesOfGen(gen);
+			dualTypes = ActualDualTypesOfGen(gen);
 		}
 
 		private void Update()
@@ -86,9 +90,11 @@ namespace coverage_checker
 				types = new List<Type>();
 				foreach (Type atk in selectedTypes)
 				{
-					float factor = TypeMethods.TypeFactor(atk, def, gen);
+					float factor = TypeFactor(atk, def, gen);
 					if (factor == maxFactor)
+					{
 						types.Add(atk);
+					}
 					else if (factor > maxFactor)
 					{
 						maxFactor = factor;
@@ -100,7 +106,9 @@ namespace coverage_checker
 				{
 					dualImmuneTypes.Add(def);
 					if (def.Item2 == NO_TYPE)
+					{
 						immuneTypes.Add(def.Item1);
+					}
 				}
 				else if (maxFactor == 0.25f)
 				{
@@ -110,19 +118,25 @@ namespace coverage_checker
 				{
 					dualWeakTypes.Add(def, types);
 					if (def.Item2 == NO_TYPE)
+					{
 						weakTypes.Add(def.Item1, types);
+					}
 				}
 				else if (maxFactor == 1.0f)
 				{
 					dualNeutralTypes.Add(def, types);
 					if (def.Item2 == NO_TYPE)
+					{
 						neutralTypes.Add(def.Item1, types);
+					}
 				}
 				else if (maxFactor == 2.0f)
 				{
 					dualStrongTypes.Add(def, types);
 					if (def.Item2 == NO_TYPE)
+					{
 						strongTypes.Add(def.Item1, types);
+					}
 				}
 				else
 				{
@@ -138,16 +152,7 @@ namespace coverage_checker
 			points = 4 * strengths + 2 * neutrals - weaknesses - 10 * immunities;
 			numTypes = gen == 1 ? 15 : gen < 6 ? 17 : 18;
 
-			if (immunities == 0)
-				if (weaknesses == 0)
-					if (neutrals == 0)
-						tier = 3;
-					else
-						tier = 2;
-				else
-					tier = 1;
-			else
-				tier = 0;
+			tier = immunities == 0 ? weaknesses == 0 ? neutrals == 0 ? 3 : 2 : 1 : 0;
 
 			dualImmunities = dualImmuneTypes.Count;
 			dualWeaknesses = dualWeakTypes.Keys.Count;
@@ -160,28 +165,17 @@ namespace coverage_checker
 				- dualWeaknesses - 2 * dualDoubleWeaknesses - 10 * dualImmunities;
 			dualNumTypes = dualTypes.Count;
 
-			if (dualImmunities == 0)
-				if (dualDoubleWeaknesses == 0)
-					if (dualWeaknesses == 0)
-						if (dualNeutrals == 0)
-							dualTier = 4;
-						else
-							dualTier = 3;
-					else
-						dualTier = 2;
-				else
-					dualTier = 1;
-			else
-				dualTier = 0;
+			dualTier = dualImmunities == 0 ? dualDoubleWeaknesses == 0 ? dualWeaknesses == 0
+				? dualNeutrals == 0 ? 4 : 3 : 2 : 1 : 0;
 		}
 
 		private void Write()
 		{
 			//Print Single Texts
-			strongTextBox.Text = GenerateText(strongTypes, "Du hast sehr Effektive Attacken gegen:");
-			neutralTextBox.Text = GenerateText(neutralTypes, "Du hast immerhin neutrale Attacken gegen:");
-			weakTextBox.Text = GenerateText(weakTypes, "Du hast nur nicht sehr Effektive Attacken gegen:");
-			immuneTextBox.Text = GenerateText(immuneTypes, "Du hast keine Attacken gegen:", true);
+			strongTextBox.Text = GenerateText(strongTypes, GetString("strength_text"));
+			neutralTextBox.Text = GenerateText(neutralTypes, GetString("neutral_text"));
+			weakTextBox.Text = GenerateText(weakTypes, GetString("weakness_text"));
+			immuneTextBox.Text = GenerateText(immuneTypes, GetString("immune_text"), true);
 
 			//Points
 			pointsTextBox.Text = points + "/" + 4 * numTypes;
@@ -189,20 +183,20 @@ namespace coverage_checker
 			//Verdict
 			verdictTextBox.Text = tier switch
 			{
-				0 => "TIER 0 Coverage. Es gibt Typen, die du nicht bekämpfen kannst!",
-				1 => "TIER 1 Coverage. Du kannst jeden Typen bekämpfen.",
-				2 => "TIER 2 Coverage! Du triffst jeden Typen mindestens neutral.",
-				3 => "TIER 3 Coverage! Du triffst jeden Typen sehr Effektiv!",
+				0 => GetString("tier_0_verdict"),
+				1 => GetString("tier_1_verdict"),
+				2 => GetString("tier_2_verdict"),
+				3 => GetString("tier_3_verdict"),
 				_ => "ERROR",
 			};
 
 			//Print Dual Texts
-			dualStrongTextBox.Text = GenerateDualText(dualStrongTypes, "Du hast sehr Effektive Attacken gegen:");
-			dualDoubleStrongTextBox.Text = GenerateDualText(dualDoubleStrongTypes, "Du hast super Effektive Attacken gegen:");
-			dualNeutralTextBox.Text = GenerateDualText(dualNeutralTypes, "Du hast immerhin neutrale Attacken gegen:");
-			dualWeakTextBox.Text = GenerateDualText(dualWeakTypes, "Du hast nur nicht sehr Effektive Attacken gegen:");
-			dualDoubleWeakTextBox.Text = GenerateDualText(dualDoubleWeakTypes, "Du hast nur doppelt nicht sehr Effektive Attacken gegen:");
-			dualImmuneTextBox.Text = GenerateDualText(dualImmuneTypes, "Du hast keine Attacken gegen:", true);
+			dualStrongTextBox.Text = GenerateDualText(dualStrongTypes, GetString("strength_text"));
+			dualDoubleStrongTextBox.Text = GenerateDualText(dualDoubleStrongTypes, GetString("double_strength_text"));
+			dualNeutralTextBox.Text = GenerateDualText(dualNeutralTypes, GetString("neutral_text"));
+			dualWeakTextBox.Text = GenerateDualText(dualWeakTypes, GetString("weakness_text"));
+			dualDoubleWeakTextBox.Text = GenerateDualText(dualDoubleWeakTypes, GetString("double_weakness_text"));
+			dualImmuneTextBox.Text = GenerateDualText(dualImmuneTypes, GetString("immune_text"), true);
 
 			//Points
 			dualPointsTextBox.Text = dualPoints + "/" + 8 * dualNumTypes;
@@ -210,11 +204,11 @@ namespace coverage_checker
 			//Verdict
 			dualVerdictTextBox.Text = dualTier switch
 			{
-				0 => "TIER 0 Coverage. Es gibt Typen, die du nicht bekämpfen kannst!",
-				1 => "TIER 1 Coverage. Du kannst jeden Typen gerade bekämpfen.",
-				2 => "TIER 2 Coverage. Du kannst jeden Typen bekämpfen.",
-				3 => "TIER 3 Coverage! Du triffst jeden Typen mindestens neutral.",
-				4 => "TIER 4 Coverage! Du triffst jeden Typen sehr Effektiv!",
+				0 => GetString("tier_0_verdict"),
+				1 => GetString("tier_0.5_verdict"),
+				2 => GetString("tier_1_verdict"),
+				3 => GetString("tier_2_verdict"),
+				4 => GetString("tier_3_verdict"),
 				_ => "ERROR",
 			};
 		}
@@ -230,37 +224,48 @@ namespace coverage_checker
 			StringBuilder s = new StringBuilder(startText);
 			if (immune)
 			{
-				s.Append(" ");
+				_ = s.Append(" ");
 				List<DualType> list = (List<DualType>)col;
 				if (list.Count == 0)
-					s.Append("nichts!  ");
+				{
+					_ = s.Append(GetString("nothing")).Append("!  ");
+				}
+
 				foreach (DualType t in list)
 				{
-					s.Append(TypeMethods.DualTypeToString(t)).Append(", ");
+					_ = s.Append(DualTypeToString(t)).Append(", ");
 				}
-				//Ninjatom
-				if (ninjatom && gen >= 3 && !HasNinjatomCoveradge(selectedTypes))
+				//shedinja
+				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(selectedTypes))
 				{
 					s = new StringBuilder(s.ToString().Trim());
-					s.Append(list.Count == 0 ? " außer Ninjatom" : " Ninjatom");
+					_ = s.Append(" ").Append(list.Count == 0
+						? GetString("except") + " " + GetString("shedinja")
+						: GetString("shedinja"));
 				}
 				else
-					s.Remove(s.Length - 2, 2);
+				{
+					_ = s.Remove(s.Length - 2, 2);
+				}
 			}
 			else
 			{
-				s.Append("\n");
+				_ = s.Append("\n");
 				Dictionary<DualType, List<Type>> dict = (Dictionary<DualType, List<Type>>)col;
 				if (dict.Keys.Count == 0)
-					s.Append("    nichts!");
+				{
+					_ = s.Append("    ").Append(GetString("nothing")).Append("!");
+				}
+
 				foreach (DualType t in dict.Keys)
 				{
-					s.Append("    ").Append(TypeMethods.DualTypeToString(t)).Append(" mit ");
+					_ = s.Append("    ").Append(DualTypeToString(t)).Append(" ")
+						.Append(GetString("with")).Append(" ");
 					foreach (Type t2 in dict[t])
 					{
-						s.Append(TypeMethods.TypeToString(t2)).Append(", ");
+						_ = s.Append(TypeToString(t2)).Append(", ");
 					}
-					s.Remove(s.Length - 2, 2).Append("\n");
+					_ = s.Remove(s.Length - 2, 2).Append("\n");
 				}
 			}
 			return s.ToString();
@@ -271,37 +276,48 @@ namespace coverage_checker
 			StringBuilder s = new StringBuilder(startText);
 			if (immune)
 			{
-				s.Append(" ");
+				_ = s.Append(" ");
 				List<Type> list = (List<Type>)col;
 				if (list.Count == 0)
-					s.Append("nichts!  ");
+				{
+					_ = s.Append(GetString("nothing")).Append("!  ");
+				}
+
 				foreach (Type t in list)
 				{
-					s.Append(TypeMethods.TypeToString(t)).Append(", ");
+					_ = s.Append(TypeToString(t)).Append(", ");
 				}
-				//Ninjatom
-				if (ninjatom && gen >= 3 && !HasNinjatomCoveradge(selectedTypes))
+				//shedinja
+				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(selectedTypes))
 				{
 					s = new StringBuilder(s.ToString().Trim());
-					s.Append(list.Count == 0 ? " außer Ninjatom" : " Ninjatom");
+					_ = s.Append(" ").Append(list.Count == 0
+						? GetString("except") + " " + GetString("shedinja")
+						: GetString("shedinja"));
 				}
 				else
-					s.Remove(s.Length - 2, 2);
+				{
+					_ = s.Remove(s.Length - 2, 2);
+				}
 			}
 			else
 			{
-				s.Append("\n");
+				_ = s.Append("\n");
 				Dictionary<Type, List<Type>> dict = (Dictionary<Type, List<Type>>)col;
 				if (dict.Keys.Count == 0)
-					s.Append("    nichts!");
+				{
+					_ = s.Append("    ").Append(GetString("nothing")).Append("!");
+				}
+
 				foreach (Type t in dict.Keys)
 				{
-					s.Append("    ").Append(TypeMethods.TypeToString(t)).Append(" mit ");
+					_ = s.Append("    ").Append(TypeToString(t)).Append(" ")
+						.Append(GetString("with")).Append(" ");
 					foreach (Type t2 in dict[t])
 					{
-						s.Append(TypeMethods.TypeToString(t2)).Append(", ");
+						_ = s.Append(TypeToString(t2)).Append(", ");
 					}
-					s.Remove(s.Length - 2, 2).Append("\n");
+					_ = s.Remove(s.Length - 2, 2).Append("\n");
 				}
 			}
 			return s.ToString();
@@ -315,31 +331,38 @@ namespace coverage_checker
 		private void Reset()
 		{
 			foreach (CheckBox cb in checkBoxes)
+			{
 				cb.IsChecked = false;
+			}
+
 			foreach (TextBox tb in textBoxes)
+			{
 				tb.Text = "";
+			}
 		}
 
 		private void Cb_Checked(object sender, RoutedEventArgs e)
 		{
-			selectedTypes.Add(TypeMethods.StringToType((string)((CheckBox)sender).Content));
+			string s = ((CheckBox)sender).Name;
+			selectedTypes.Add(StringToType(s.Substring(0, s.Length - 3)));
 		}
 
 		private void Cb_Unchecked(object sender, RoutedEventArgs e)
 		{
-			selectedTypes.Remove(TypeMethods.StringToType((string)((CheckBox)sender).Content));
+			string s = ((CheckBox)sender).Name;
+			_ = selectedTypes.Remove(StringToType(s.Substring(0, s.Length - 3)));
 		}
 
 		private void Ninjatom_Checked(object sender, RoutedEventArgs e)
 		{
-			ninjatom = true;
+			shedinja = true;
 			//Update();
 			//Write();
 		}
 
 		private void Ninjatom_Unchecked(object sender, RoutedEventArgs e)
 		{
-			ninjatom = false;
+			shedinja = false;
 			//Update();
 			//Write();
 		}
@@ -352,7 +375,7 @@ namespace coverage_checker
 				return;
 			}
 			showActual = true;
-			dualTypes = TypeMethods.ActualDualTypesOfGen(gen);
+			dualTypes = ActualDualTypesOfGen(gen);
 			//Update();
 			//Write();
 		}
@@ -360,7 +383,7 @@ namespace coverage_checker
 		private void Actual_Unchecked(object sender, RoutedEventArgs e)
 		{
 			showActual = false;
-			dualTypes = TypeMethods.DualTypesOfGen(gen);
+			dualTypes = DualTypesOfGen(gen);
 			//Update();
 			//Write();
 		}
@@ -375,10 +398,33 @@ namespace coverage_checker
 			gen = ((ComboBox)sender).SelectedIndex + 1;
 			steel_cb.IsEnabled = dark_cb.IsEnabled = fairy_cb.IsEnabled = false;
 			if (gen > 1)
+			{
 				steel_cb.IsEnabled = dark_cb.IsEnabled = true;
+			}
+
 			if (gen > 5)
+			{
 				fairy_cb.IsEnabled = true;
-			dualTypes = showActual ? TypeMethods.ActualDualTypesOfGen(gen) : TypeMethods.DualTypesOfGen(gen);
+			}
+
+			dualTypes = showActual ? ActualDualTypesOfGen(gen) : DualTypesOfGen(gen);
+		}
+
+		private void ComboBox_LanguageChanged(object sender, SelectionChangedEventArgs e)
+		{
+			string language = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Name;
+			SetLanguage(language);
+		}
+
+		private void SetLanguage(string language)
+		{
+			ResourceDictionary dict = new ResourceDictionary();
+			dict.Source = language switch
+			{
+				"de_DE" => new Uri("Resources\\StringResources.de_DE.xaml", UriKind.Relative),
+				_ => new Uri("Resources\\StringResources.en_US.xaml", UriKind.Relative),
+			};
+			Application.Current.Resources.MergedDictionaries.Add(dict);
 		}
 
 		private void Find_Optimal(object sender, RoutedEventArgs e)
@@ -386,22 +432,29 @@ namespace coverage_checker
 			bool isMin = rb_min.IsChecked.Value;
 			int n = int.Parse(tb_n.Text);
 			if (isMin)
+			{
 				FindMinMovesWithTier(n);
+			}
 			else
+			{
 				FindMaxScoreWithMoves(n);
+			}
+
 			Reset();
 		}
 
 		private void FindMaxScoreWithMoves(int n)
 		{
-			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new IteratorHelper.DescendingDuplicateKeyComparer<int>());
+			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new DescendingDuplicateKeyComparer<int>());
 			int optimalTier = 0;
-			foreach (List<Type> types in IteratorHelper.Subsets(TypeMethods.TypesOfGen(gen).ToList(), n))
+			foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), n))
 			{
 				selectedTypes = types;
 				Update();
 				if (dualTier == optimalTier)
+				{
 					result.Add(dualPoints, types);
+				}
 				else if (dualTier > optimalTier)
 				{
 					optimalTier = dualTier;
@@ -409,39 +462,51 @@ namespace coverage_checker
 					result.Add(dualPoints, types);
 				}
 			}
-			StringBuilder s = new StringBuilder("Optimale Tier ");
-			s.Append(optimalTier).Append(" Coveradge mit ").Append(n).Append(" Typen: \n");
+			StringBuilder s = new StringBuilder(GetString("Optimal"));
+			_ = s.Append(" ").Append(GetString("tier")).Append(" ").Append(optimalTier)
+				.Append(" ").Append(GetString("coveradge")).Append(" ")
+				.Append(GetString("with")).Append(" ").Append(n).Append(" ")
+				.Append(GetString("types")).Append(": \n");
 			foreach ((int points, List<Type> types) in result)
 			{
-				//Ninjatom clause
-				if (ninjatom && !HasNinjatomCoveradge(types))
+				//shedinja clause
+				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(types))
+				{
 					continue;
-				s.Append("   ");
+				}
+
+				_ = s.Append("   ");
 				foreach (Type t in types)
 				{
-					s.Append(TypeMethods.TypeToString(t)).Append(", ");
+					_ = s.Append(TypeToString(t)).Append(", ");
 				}
-				s.Remove(s.Length - 2, 2).Append(": Punkte: ").Append(points).Append("\n");
+				_ = s.Remove(s.Length - 2, 2).Append(": ").Append(GetString("Points"))
+					.Append(": ").Append(points).Append("\n");
 			}
 			optimumTextBox.Text = s.ToString();
 		}
 
 		private void FindMinMovesWithTier(int n)
 		{
-			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new IteratorHelper.DescendingDuplicateKeyComparer<int>());
+			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new DescendingDuplicateKeyComparer<int>());
 			int optimalTier = 0;
 			int maxMoves = 0;
-			while(optimalTier < n)
+			while (optimalTier < n)
 			{
 				++maxMoves;
-				foreach (List<Type> types in IteratorHelper.Subsets(TypeMethods.TypesOfGen(gen).ToList(), maxMoves))
+				foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), maxMoves))
 				{
 					if (types.Count < maxMoves)
+					{
 						continue;
+					}
+
 					selectedTypes = types;
 					Update();
 					if (dualTier == optimalTier)
+					{
 						result.Add(dualPoints, types);
+					}
 					else if (dualTier > optimalTier)
 					{
 						optimalTier = dualTier;
@@ -450,19 +515,25 @@ namespace coverage_checker
 					}
 				}
 			}
-			StringBuilder s = new StringBuilder("Tier "); 
-			s.Append(n).Append(" ist möglich mit ").Append(maxMoves).Append(" Typen: \n");
+			StringBuilder s = new StringBuilder(GetString("Tier"));
+			_ = s.Append(" ").Append(n).Append(" ").Append(GetString("coveradge"))
+				.Append(" ").Append(GetString("possible")).Append(" ")
+				.Append(GetString("with")).Append(" ").Append(maxMoves).Append(" ")
+				.Append(GetString("types")).Append(": \n");
 			foreach ((_, List<Type> types) in result)
 			{
-				//Ninjatom clause
-				if (ninjatom && !HasNinjatomCoveradge(types))
+				//shedinja clause
+				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(types))
+				{
 					continue;
-				s.Append("   ");
+				}
+
+				_ = s.Append("   ");
 				foreach (Type t in types)
 				{
-					s.Append(TypeMethods.TypeToString(t)).Append(", ");
+					_ = s.Append(TypeToString(t)).Append(", ");
 				}
-				s.Remove(s.Length - 2, 2).Append("\n");
+				_ = s.Remove(s.Length - 2, 2).Append("\n");
 			}
 			optimumTextBox.Text = s.ToString();
 		}
@@ -473,9 +544,10 @@ namespace coverage_checker
 			e.Handled = regex.IsMatch(e.Text);
 		}
 
-		private bool HasNinjatomCoveradge(List<Type> types)
+		private bool HasShedinjaCoveradge(List<Type> types)
 		{
-			return types.Contains(FIRE) || types.Contains(FLYING) || types.Contains(ROCK) || types.Contains(GHOST) || types.Contains(DARK);
+			return types.Contains(FIRE) || types.Contains(FLYING) || types.Contains(ROCK)
+				|| types.Contains(GHOST) || types.Contains(DARK);
 		}
 	}
 }

@@ -5,6 +5,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>coverage_checker</RootNamespace>
     <UseWPF>true</UseWPF>
+    <StartupObject>coverage_checker.App</StartupObject>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Resources\StringResources.de_DE.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 
 </Project>

@@ -1,22 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using static coverage_checker.Type;
+using static coverage_checker.StringHelper;
 
 using DualType = System.Tuple<coverage_checker.Type, coverage_checker.Type>;
 
 namespace coverage_checker
 {
 	public enum Type : int
-	{ NORMAL, FIGHTING, FLYING, POISON, GROUND, ROCK, BUG, GHOST, FIRE, WATER, GRASS,
-		ELECTRIC, PSYCHIC, ICE, DRAGON, STEEL, DARK, FAIRY, NO_TYPE = -1 }
+	{
+		NORMAL, FIGHTING, FLYING, POISON, GROUND, ROCK, BUG, GHOST, FIRE, WATER, GRASS,
+		ELECTRIC, PSYCHIC, ICE, DRAGON, STEEL, DARK, FAIRY, NO_TYPE = -1
+	}
+
+	public static class StringHelper
+	{
+		public static string GetString(string s)
+		{
+			return Application.Current.Resources[s] as string;
+		}
+	}
 
 	public static class IteratorHelper
 	{
 		public static IEnumerable<List<T>> Subsets<T>(List<T> objects, int maxLength)
 		{
 			if (objects == null || maxLength <= 0)
+			{
 				yield break;
+			}
 			Stack<int> stack = new Stack<int>(maxLength);
 			int i = 0;
 			while (stack.Count > 0 || i < objects.Count)
@@ -24,7 +38,9 @@ namespace coverage_checker
 				if (i < objects.Count)
 				{
 					if (stack.Count == maxLength)
+					{
 						i = stack.Pop() + 1;
+					}
 					stack.Push(i++);
 					yield return (from index in stack.Reverse()
 								  select objects[index]).ToList();
@@ -33,7 +49,9 @@ namespace coverage_checker
 				{
 					i = stack.Pop() + 1;
 					if (stack.Count > 0)
+					{
 						i = stack.Pop() + 1;
+					}
 				}
 			}
 		}
@@ -43,11 +61,7 @@ namespace coverage_checker
 			public int Compare(TKey x, TKey y)
 			{
 				int result = x.CompareTo(y);
-
-				if (result == 0)
-					return 1; // Handle equality as being greater. Note: this will break Remove(key) or
-				else          // IndexOfKey(key) since the comparer never returns 0 to signal key equality
-					return result;
+				return result == 0 ? 1 : result;
 			}
 		}
 
@@ -56,11 +70,7 @@ namespace coverage_checker
 			public int Compare(TKey x, TKey y)
 			{
 				int result = -x.CompareTo(y);
-
-				if (result == 0)
-					return 1; // Handle equality as being greater. Note: this will break Remove(key) or
-				else          // IndexOfKey(key) since the comparer never returns 0 to signal key equality
-					return result;
+				return result == 0 ? 1 : result;
 			}
 		}
 	}
@@ -70,38 +80,40 @@ namespace coverage_checker
 
 		public static Type[] TypesOfGen(int gen)
 		{
-			return gen == 1 ? Constants.TYPES_OF_GEN_1 
-				: gen < 6 ? Constants.TYPES_OF_GEN_2 
+			return gen == 1 ? Constants.TYPES_OF_GEN_1
+				: gen < 6 ? Constants.TYPES_OF_GEN_2
 				: Constants.TYPES_OF_GEN_6;
 		}
 
 		public static string DualTypeToString(DualType t)
 		{
-			return t.Item2 == NO_TYPE ? TypeToString(t.Item1) : TypeToString(t.Item1) + "/" + TypeToString(t.Item2);
+			return t.Item2 == NO_TYPE ? TypeToString(t.Item1) 
+				: TypeToString(t.Item1) + "/" + TypeToString(t.Item2);
 		}
 
 		public static string TypeToString(Type t)
 		{
 			return t switch
 			{
-				NORMAL => "Normal",
-				FIGHTING => "Kampf",
-				FLYING => "Flug",
-				POISON => "Gift",
-				GROUND => "Boden",
-				ROCK => "Gestein",
-				BUG => "Käfer",
-				GHOST => "Geist",
-				FIRE => "Feuer",
-				WATER => "Wasser",
-				GRASS => "Pflanze",
-				ELECTRIC => "Elektro",
-				PSYCHIC => "Psycho",
-				ICE => "Eis",
-				DRAGON => "Drache",
-				STEEL => "Stahl",
-				DARK => "Unlicht",
-				FAIRY => "Fee",
+				NORMAL => GetString("normal"),
+				FIGHTING => GetString("fighting"),
+				FLYING => GetString("flying"),
+				POISON => GetString("poison"),
+				GROUND => GetString("ground"),
+				ROCK => GetString("rock"),
+				BUG => GetString("bug"),
+				GHOST => GetString("ghost"),
+				FIRE => GetString("fire"),
+				WATER => GetString("water"),
+				GRASS => GetString("grass"),
+				ELECTRIC => GetString("electric"),
+				PSYCHIC => GetString("psychic"),
+				ICE => GetString("ice"),
+				DRAGON => GetString("dragon"),
+				STEEL => GetString("steel"),
+				DARK => GetString("dark"),
+				FAIRY => GetString("fairy"),
+				NO_TYPE => "ERROR",
 				_ => "ERROR"
 			};
 		}
@@ -110,24 +122,24 @@ namespace coverage_checker
 		{
 			return s switch
 			{
-				"Normal" => NORMAL,
-				"Kampf" => FIGHTING,
-				"Flug" => FLYING,
-				"Gift" => POISON,
-				"Boden" => GROUND,
-				"Gestein" => ROCK,
-				"Käfer" => BUG,
-				"Geist" => GHOST,
-				"Feuer" => FIRE,
-				"Wasser" => WATER,
-				"Pflanze" => GRASS,
-				"Elektro" => ELECTRIC,
-				"Psycho" => PSYCHIC,
-				"Eis" => ICE,
-				"Drache" => DRAGON,
-				"Stahl" => STEEL,
-				"Unlicht" => DARK,
-				"Fee" => FAIRY,
+				"normal" => NORMAL,
+				"fighting" => FIGHTING,
+				"flying" => FLYING,
+				"poison" => POISON,
+				"ground" => GROUND,
+				"rock" => ROCK,
+				"bug" => BUG,
+				"ghost" => GHOST,
+				"fire" => FIRE,
+				"water" => WATER,
+				"grass" => GRASS,
+				"electric" => ELECTRIC,
+				"psychic" => PSYCHIC,
+				"ice" => ICE,
+				"dragon" => DRAGON,
+				"steel" => STEEL,
+				"dark" => DARK,
+				"fairy" => FAIRY,
 				_ => NO_TYPE
 			};
 		}
@@ -140,7 +152,7 @@ namespace coverage_checker
 
 		public static float TypeFactor(Type atk, DualType def, int gen)
 		{
-			return def.Item2 == NO_TYPE ? TypeFactor(atk, def.Item1, gen) 
+			return def.Item2 == NO_TYPE ? TypeFactor(atk, def.Item1, gen)
 				: TypeFactor(atk, def.Item1, gen) * TypeFactor(atk, def.Item2, gen);
 		}
 
@@ -152,9 +164,9 @@ namespace coverage_checker
 			{
 				for (int j = i + 1; j < types.Length; ++j)
 				{
-					result.Add(new DualType(types[i], types[j]));
+					_ = result.Add(new DualType(types[i], types[j]));
 				}
-				result.Add(new DualType(types[i], NO_TYPE));
+				_ = result.Add(new DualType(types[i], NO_TYPE));
 			}
 			return result;
 		}
@@ -400,16 +412,24 @@ namespace coverage_checker
 			foreach (Type atk in (Type[])Enum.GetValues(typeof(Type)))
 			{
 				if (atk == NO_TYPE)
+				{
 					continue;
+				}
 				foreach (Type def in (Type[])Enum.GetValues(typeof(Type)))
 				{
 					if (def == NO_TYPE)
+					{
 						continue;
+					}
 					TYPE_TABLE.Add((atk, def), new float[] { 1.0f, 1.0f, 1.0f });
 					if (def == STEEL || def == DARK)
+					{
 						TYPE_TABLE[(atk, def)][0] = -1.0f;
+					}
 					else if (def == FAIRY)
+					{
 						TYPE_TABLE[(atk, def)][0] = TYPE_TABLE[(atk, def)][1] = -1.0f;
+					}
 				}
 			}
 			//NORMAL

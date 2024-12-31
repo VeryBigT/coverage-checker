@@ -3,104 +3,118 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:coverage_checker"
         mc:Ignorable="d"
-        Title="PCC™ v0.3" Height="898" Width="400"
+        Title="PCC™ v0.4" Height="898" Width="400"
         Background="#444">
     <DockPanel VerticalAlignment="Top">
         <Border DockPanel.Dock="Top" Padding="10" Background="#444">
             <StackPanel>
-            <!-- gen selection -->
-            <TextBlock FontWeight="Bold" Margin="0 10" Text="Gen"/>
-            <ComboBox SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Left" Width="40" SelectedIndex="2">
-                <ComboBoxItem>1</ComboBoxItem>
-                <ComboBoxItem>2</ComboBoxItem>
-                <ComboBoxItem>3</ComboBoxItem>
-                <ComboBoxItem>4</ComboBoxItem>
-                <ComboBoxItem>5</ComboBoxItem>
-                <ComboBoxItem>6</ComboBoxItem>
-                <ComboBoxItem>7</ComboBoxItem>
-                <ComboBoxItem>8</ComboBoxItem>
-                <ComboBoxItem>9</ComboBoxItem>
-            </ComboBox>
-             
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <!-- gen selection -->
+                        <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource gen_l}"/>
+                        <ComboBox SelectionChanged="ComboBox_SelectionChanged" HorizontalAlignment="Left" Width="40" SelectedIndex="2">
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>6</ComboBoxItem>
+                            <ComboBoxItem>7</ComboBoxItem>
+                            <ComboBoxItem>8</ComboBoxItem>
+                            <ComboBoxItem>9</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                        <!-- gen selection -->
+                        <TextBlock FontWeight="Bold" Margin="0 0" Text="{DynamicResource language_l}"/>
+                        <ComboBox SelectionChanged="ComboBox_LanguageChanged" HorizontalAlignment="Left" Width="80" SelectedIndex="0">
+                            <ComboBoxItem Name="en_US" Content="{DynamicResource en_US}"/>
+                            <ComboBoxItem Name="de_DE" Content="{DynamicResource de_DE}"/>
+                        </ComboBox>
+                    </StackPanel>
+                </Grid>
                 <!-- type selection -->
-            <TextBlock FontWeight="Bold" Margin="0 10" Text="Typen"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Margin="0 0 0 15">
-                    <CheckBox Foreground="#bcbcab" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="normal_cb" Content="Normal"/>
-                    <CheckBox Foreground="#bc5442" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fight_cb" Content="Kampf"/>
-                    <CheckBox Foreground="#669aff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fly_cb" Content="Flug"/>
-                    <CheckBox Foreground="#ab549a" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="poison_cb" Content="Gift"/>
-                    <CheckBox Foreground="#debc54" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ground_cb" Content="Boden"/>
-                    <CheckBox Foreground="#bcab66" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="stone_cb" Content="Gestein"/>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Margin="0 0 0 15">
-                    <CheckBox Foreground="#abbc1c" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="bug_cb" Content="Käfer"/>
-                    <CheckBox Foreground="#6666bc" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ghost_cb" Content="Geist"/>
-                    <CheckBox Foreground="#ff421c" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fire_cb" Content="Feuer"/>
-                    <CheckBox Foreground="#2f9aff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="water_cb" Content="Wasser"/>
-                    <CheckBox Foreground="#78cd54" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="grass_cb" Content="Pflanze"/>
-                    <CheckBox Foreground="#ffcd30" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="electric_cb" Content="Elektro"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2" Margin="0 0 0 15">
-                    <CheckBox Foreground="#ff549a" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="psychic_cb" Content="Psycho"/>
-                    <CheckBox Foreground="#78deff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ice_cb" Content="Eis"/>
-                    <CheckBox Foreground="#7866ee" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="dragon_cb" Content="Drache"/>
-                    <CheckBox Foreground="#ababbc" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="steel_cb" Content="Stahl"/>
-                    <CheckBox Foreground="#785442" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="dark_cb" Content="Unlicht"/>
-                    <CheckBox Foreground="#ffabff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fairy_cb" Content="Fee" IsEnabled="False"/>
-                </StackPanel>
-            </Grid>
+                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource types_l}"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0 0 0 15">
+                        <CheckBox Foreground="#bcbcab" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="normal_cb" Content="{DynamicResource normal}"/>
+                        <CheckBox Foreground="#bc5442" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fighting_cb" Content="{DynamicResource fighting}"/>
+                        <CheckBox Foreground="#669aff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="flying_cb" Content="{DynamicResource flying}"/>
+                        <CheckBox Foreground="#ab549a" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="poison_cb" Content="{DynamicResource poison}"/>
+                        <CheckBox Foreground="#debc54" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ground_cb" Content="{DynamicResource ground}"/>
+                        <CheckBox Foreground="#bcab66" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="rock_cb" Content="{DynamicResource rock}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="0 0 0 15">
+                        <CheckBox Foreground="#abbc1c" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="bug_cb" Content="{DynamicResource bug}"/>
+                        <CheckBox Foreground="#6666bc" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ghost_cb" Content="{DynamicResource ghost}"/>
+                        <CheckBox Foreground="#ff421c" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fire_cb" Content="{DynamicResource fire}"/>
+                        <CheckBox Foreground="#2f9aff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="water_cb" Content="{DynamicResource water}"/>
+                        <CheckBox Foreground="#78cd54" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="grass_cb" Content="{DynamicResource grass}"/>
+                        <CheckBox Foreground="#ffcd30" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="electric_cb" Content="{DynamicResource electric}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="0 0 0 15">
+                        <CheckBox Foreground="#ff549a" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="psychic_cb" Content="{DynamicResource psychic}"/>
+                        <CheckBox Foreground="#78deff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="ice_cb" Content="{DynamicResource ice}"/>
+                        <CheckBox Foreground="#7866ee" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="dragon_cb" Content="{DynamicResource dragon}"/>
+                        <CheckBox Foreground="#ababbc" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="steel_cb" Content="{DynamicResource steel}"/>
+                        <CheckBox Foreground="#785442" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="dark_cb" Content="{DynamicResource dark}"/>
+                        <CheckBox Foreground="#ffabff" Unchecked="Cb_Unchecked" Checked="Cb_Checked" x:Name="fairy_cb" Content="{DynamicResource fairy}" IsEnabled="False"/>
+                    </StackPanel>
+                </Grid>
 
-            <!-- buttons -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="applyButton" Click="ApplyButton_Click" Margin="15 0" Grid.Column="0" Content="Check"/>
-                    <Button x:Name="clearButton" Click="ClearButton_Click" Margin="15 0" Grid.Column="1" Content="Clear"/>
+                <!-- buttons -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="applyButton" Click="ApplyButton_Click" Margin="15 0" Grid.Column="0" Content="{DynamicResource check_b}"/>
+                    <Button x:Name="clearButton" Click="ClearButton_Click" Margin="15 0" Grid.Column="1" Content="{DynamicResource reset_b}"/>
                 </Grid>
             </StackPanel>
         </Border>
 
         <Border DockPanel.Dock="Bottom" Background="#444">
             <TabControl Background="#444">
-                <TabItem Name="singleTypesTab" Header="single types">
+                <TabItem Name="singleTypesTab" Header="{DynamicResource single_tab}">
                     <ScrollViewer CanContentScroll="True">
                         <Border Padding="10" Background="#444">
                             <StackPanel>
 
                                 <!-- Textfeld für Stärken -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Stärken"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource strengths_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="strongTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Neutral -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Neutral"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource neutral_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="neutralTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Schwächen -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Schwächen"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource weaknesses_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="weakTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Immunitäten -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Immun"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource immune_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="immuneTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Punkte -->
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontWeight="Bold" Margin="0 20" Text="Punkte:"/>
+                                    <TextBlock FontWeight="Bold" Margin="0 20" Text="{DynamicResource points_l}"/>
                                     <TextBox HorizontalAlignment="Stretch" Margin="10 20" MinWidth="55" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="pointsTextBox" IsReadOnly="True" Background="#eee"/>
                                 </StackPanel>
 
                                 <!-- Textfeld für Bewertung -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Bewertung"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource verdict_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="verdictTextBox" IsReadOnly="True" Background="#eee"/>
 
                             </StackPanel>
@@ -108,44 +122,44 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Name="dualTypesTab" Header="dual types">
+                <TabItem Name="dualTypesTab" Header="{DynamicResource dual_tab}">
                     <ScrollViewer CanContentScroll="True">
                         <Border Padding="10" Background="#444">
                             <StackPanel>
-                                <CheckBox IsChecked="True" Unchecked="Actual_Unchecked" Checked="Actual_Checked" x:Name="actual_cb" Content="only show actual dual types"/>
+                                <CheckBox IsChecked="True" Unchecked="Actual_Unchecked" Checked="Actual_Checked" x:Name="actual_cb" Content="{DynamicResource show_actual_cbc}"/>
 
                                 <!-- Textfeld für Doppel-Stärker -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Doppel-Stärken"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource double_strengths_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="dualDoubleStrongTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Stärken -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Stärken"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource strengths_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="dualStrongTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Neutral -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Neutral"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource neutral_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="dualNeutralTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Schwächen -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Schwächen"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource weaknesses_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="dualWeakTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Doppel-Schwächen -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Doppel-Schwächen"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource double_weaknesses_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="dualDoubleWeakTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Textfeld für Immunitäten -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Immun"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource immune_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="dualImmuneTextBox" IsReadOnly="True" Background="#eee"/>
 
                                 <!-- Punkte -->
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontWeight="Bold" Margin="0 20" Text="Punkte:"/>
+                                    <TextBlock FontWeight="Bold" Margin="0 20" Text="{DynamicResource points_l}"/>
                                     <TextBox HorizontalAlignment="Stretch" Margin="10 20" MinWidth="55" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="dualPointsTextBox" IsReadOnly="True" Background="#eee"/>
                                 </StackPanel>
 
                                 <!-- Textfeld für Bewertung -->
-                                <TextBlock FontWeight="Bold" Margin="0 10" Text="Bewertung"/>
+                                <TextBlock FontWeight="Bold" Margin="0 10" Text="{DynamicResource verdict_l}"/>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" x:Name="dualVerdictTextBox" IsReadOnly="True" Background="#eee"/>
 
                             </StackPanel>
@@ -153,7 +167,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Name="optimal" Header="Optimum">
+                <TabItem Name="optimal" Header="{DynamicResource optimal_tab}">
                     <ScrollViewer CanContentScroll="True">
                         <Border Padding="10" Background="#444">
                             <StackPanel>
@@ -167,12 +181,12 @@
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <RadioButton Grid.Column="0" Grid.Row="0" x:Name="rb_min" Content="min Typen für Tier n" IsChecked="True"/>
-                                    <RadioButton Grid.Column="0" Grid.Row="1" x:Name="rb_max" Content="max Punkte mit n Typen"/>
+                                    <RadioButton Grid.Column="0" Grid.Row="0" x:Name="rb_min" Content="{DynamicResource min_optimal_rbc}" IsChecked="True"/>
+                                    <RadioButton Grid.Column="0" Grid.Row="1" x:Name="rb_max" Content="{DynamicResource max_optimal_rbc }"/>
                                     <TextBlock Grid.Column="1" Grid.Row="0" FontWeight="Bold" Margin="0" Text="n"/>
                                     <TextBox Width="30" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" x:Name="tb_n" PreviewTextInput="NumberValidationTextBox"/>
-                                    <CheckBox Grid.Column="0" Grid.Row="2" Content="Ninjatom" Unchecked="Ninjatom_Unchecked" Checked="Ninjatom_Checked" x:Name="cb_ninjatom" />
-                                    <Button Grid.Column="1" Grid.Row="2" Margin="5" Click="Find_Optimal" Content="Find Optimal" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                    <CheckBox Grid.Column="0" Grid.Row="2" Content="{DynamicResource shedinja}" Unchecked="Ninjatom_Unchecked" Checked="Ninjatom_Checked" x:Name="cb_ninjatom" />
+                                    <Button Grid.Column="1" Grid.Row="2" Margin="5" Click="Find_Optimal" Content="{DynamicResource optimal_b}" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                                 </Grid>
                                 <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="Wrap" MinHeight="50" x:Name="optimumTextBox" IsReadOnly="True" Background="#eee"/>
                             </StackPanel>
