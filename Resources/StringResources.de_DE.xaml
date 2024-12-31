@@ -54,14 +54,14 @@
     <!--words-->
     <system:String x:Key="except">außer</system:String>
     <system:String x:Key="nothing">nichts</system:String>
-    <system:String x:Key="with">mit</system:String>
+    <system:String x:Key="Points">Punkte</system:String>
+    <!--<system:String x:Key="with">mit</system:String>
     <system:String x:Key="Optimal">Optimale</system:String>
     <system:String x:Key="tier">Tier</system:String>
     <system:String x:Key="Tier">Tier</system:String>
     <system:String x:Key="coveradge">Coveradge</system:String>
     <system:String x:Key="types">Typen</system:String>
-    <system:String x:Key="Points">Punkte</system:String>
-    <system:String x:Key="possible">möglich</system:String>
+    <system:String x:Key="possible">möglich</system:String>-->
 
     <!--sentences-->
     <system:String x:Key="strength_text">Du hast sehr Effektive Attacken gegen:</system:String>
@@ -76,6 +76,9 @@
     <system:String x:Key="tier_1_verdict">TIER 1 Coverage. Du kannst jeden Typen bekämpfen.</system:String>
     <system:String x:Key="tier_2_verdict">TIER 2 Coverage! Du triffst jeden Typen mindestens neutral.</system:String>
     <system:String x:Key="tier_3_verdict">TIER 3 Coverage! Du triffst jeden Typen sehr Effektiv!</system:String>
+    <!--regex-->
+    <system:String x:Key="min_optimal_regex">Tier {0} Coveradge möglich mit {1} Typen:</system:String>
+    <system:String x:Key="max_optimal_regex">Optimale Tier {0} Coveradge mit {1} Typen:</system:String>
 
     <!--languages-->
     <system:String x:Key="de_DE">Deutsch</system:String>

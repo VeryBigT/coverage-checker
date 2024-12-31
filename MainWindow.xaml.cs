@@ -40,10 +40,10 @@ namespace coverage_checker
 
 		private int gen;
 		private bool showActual = true, shedinja = false;
-		int immunities, weaknesses, neutrals, strengths, points, numTypes, dualImmunities, dualWeaknesses,
+		private int immunities, weaknesses, neutrals, strengths, points, numTypes, dualImmunities, dualWeaknesses,
 			dualNeutrals, dualStrengths, dualPoints, dualNumTypes,
 			dualDoubleStrengths, dualDoubleWeaknesses, tier, dualTier;
-		private bool firstActual = true, firstSelection = true;
+		private bool firstSelection = true;
 
 		public MainWindow()
 		{
@@ -138,7 +138,7 @@ namespace coverage_checker
 						strongTypes.Add(def.Item1, types);
 					}
 				}
-				else
+				else //if (maxFactor == 4.0f)
 				{
 					dualDoubleStrongTypes.Add(def, types);
 				}
@@ -230,7 +230,6 @@ namespace coverage_checker
 				{
 					_ = s.Append(GetString("nothing")).Append("!  ");
 				}
-
 				foreach (DualType t in list)
 				{
 					_ = s.Append(DualTypeToString(t)).Append(", ");
@@ -256,7 +255,6 @@ namespace coverage_checker
 				{
 					_ = s.Append("    ").Append(GetString("nothing")).Append("!");
 				}
-
 				foreach (DualType t in dict.Keys)
 				{
 					_ = s.Append("    ").Append(DualTypeToString(t)).Append(" ")
@@ -282,7 +280,6 @@ namespace coverage_checker
 				{
 					_ = s.Append(GetString("nothing")).Append("!  ");
 				}
-
 				foreach (Type t in list)
 				{
 					_ = s.Append(TypeToString(t)).Append(", ");
@@ -308,7 +305,6 @@ namespace coverage_checker
 				{
 					_ = s.Append("    ").Append(GetString("nothing")).Append("!");
 				}
-
 				foreach (Type t in dict.Keys)
 				{
 					_ = s.Append("    ").Append(TypeToString(t)).Append(" ")
@@ -334,7 +330,6 @@ namespace coverage_checker
 			{
 				cb.IsChecked = false;
 			}
-
 			foreach (TextBox tb in textBoxes)
 			{
 				tb.Text = "";
@@ -356,36 +351,23 @@ namespace coverage_checker
 		private void Ninjatom_Checked(object sender, RoutedEventArgs e)
 		{
 			shedinja = true;
-			//Update();
-			//Write();
 		}
 
 		private void Ninjatom_Unchecked(object sender, RoutedEventArgs e)
 		{
 			shedinja = false;
-			//Update();
-			//Write();
 		}
 
 		private void Actual_Checked(object sender, RoutedEventArgs e)
 		{
-			if (firstActual)
-			{
-				firstActual = false;
-				return;
-			}
 			showActual = true;
 			dualTypes = ActualDualTypesOfGen(gen);
-			//Update();
-			//Write();
 		}
 
 		private void Actual_Unchecked(object sender, RoutedEventArgs e)
 		{
 			showActual = false;
 			dualTypes = DualTypesOfGen(gen);
-			//Update();
-			//Write();
 		}
 
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -401,12 +383,10 @@ namespace coverage_checker
 			{
 				steel_cb.IsEnabled = dark_cb.IsEnabled = true;
 			}
-
 			if (gen > 5)
 			{
 				fairy_cb.IsEnabled = true;
 			}
-
 			dualTypes = showActual ? ActualDualTypesOfGen(gen) : DualTypesOfGen(gen);
 		}
 
@@ -462,11 +442,8 @@ namespace coverage_checker
 					result.Add(dualPoints, types);
 				}
 			}
-			StringBuilder s = new StringBuilder(GetString("Optimal"));
-			_ = s.Append(" ").Append(GetString("tier")).Append(" ").Append(optimalTier)
-				.Append(" ").Append(GetString("coveradge")).Append(" ")
-				.Append(GetString("with")).Append(" ").Append(n).Append(" ")
-				.Append(GetString("types")).Append(": \n");
+			StringBuilder s = new StringBuilder(GetRegEx("max_optimal_regex", optimalTier, n));
+			_ = s.Append(" \n");
 			foreach ((int points, List<Type> types) in result)
 			{
 				//shedinja clause
@@ -474,7 +451,6 @@ namespace coverage_checker
 				{
 					continue;
 				}
-
 				_ = s.Append("   ");
 				foreach (Type t in types)
 				{
@@ -488,6 +464,10 @@ namespace coverage_checker
 
 		private void FindMinMovesWithTier(int n)
 		{
+			if (n >= 1)
+			{
+				n++;
+			}
 			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new DescendingDuplicateKeyComparer<int>());
 			int optimalTier = 0;
 			int maxMoves = 0;
@@ -500,7 +480,6 @@ namespace coverage_checker
 					{
 						continue;
 					}
-
 					selectedTypes = types;
 					Update();
 					if (dualTier == optimalTier)
@@ -515,11 +494,8 @@ namespace coverage_checker
 					}
 				}
 			}
-			StringBuilder s = new StringBuilder(GetString("Tier"));
-			_ = s.Append(" ").Append(n).Append(" ").Append(GetString("coveradge"))
-				.Append(" ").Append(GetString("possible")).Append(" ")
-				.Append(GetString("with")).Append(" ").Append(maxMoves).Append(" ")
-				.Append(GetString("types")).Append(": \n");
+			StringBuilder s = new StringBuilder(GetRegEx("min_optimal_regex", n, maxMoves));
+			_ = s .Append(" \n");
 			foreach ((_, List<Type> types) in result)
 			{
 				//shedinja clause
@@ -527,7 +503,6 @@ namespace coverage_checker
 				{
 					continue;
 				}
-
 				_ = s.Append("   ");
 				foreach (Type t in types)
 				{

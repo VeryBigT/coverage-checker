@@ -17,10 +17,18 @@ namespace coverage_checker
 
 	public static class StringHelper
 	{
-		public static string GetString(string s)
+		public static string GetString(string key)
 		{
-			return Application.Current.Resources[s] as string;
+			string s = Application.Current.Resources[key] as string;
+			return s.Length > 0 ? s : "MISSING TRANSLATION FOR KEY: " + key;
 		}
+
+#pragma warning disable CS8632
+		public static string GetRegEx(string key, params object?[] args)
+		{
+			return string.Format(GetString(key), args);
+		}
+#pragma warning restore CS8632
 	}
 
 	public static class IteratorHelper
