@@ -24,7 +24,7 @@ namespace coverage_checker
 		}
 
 #pragma warning disable CS8632
-		public static string GetRegEx(string key, params object?[] args)
+		public static string GetFormatString(string key, params object?[] args)
 		{
 			return string.Format(GetString(key), args);
 		}
@@ -85,6 +85,11 @@ namespace coverage_checker
 
 	public static class TypeMethods
 	{
+		public static bool HasShedinjaCoveradge(List<Type> types)
+		{
+			return types.Contains(FIRE) || types.Contains(FLYING) || types.Contains(ROCK)
+				|| types.Contains(GHOST) || types.Contains(DARK);
+		}
 
 		public static Type[] TypesOfGen(int gen)
 		{
@@ -95,7 +100,7 @@ namespace coverage_checker
 
 		public static string DualTypeToString(DualType t)
 		{
-			return t.Item2 == NO_TYPE ? TypeToString(t.Item1) 
+			return t.Item2 == NO_TYPE ? TypeToString(t.Item1)
 				: TypeToString(t.Item1) + "/" + TypeToString(t.Item2);
 		}
 

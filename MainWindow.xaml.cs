@@ -19,7 +19,6 @@ namespace coverage_checker
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	///
 	public partial class MainWindow : Window
 	{
 		private readonly CheckBox[] checkBoxes;
@@ -149,7 +148,7 @@ namespace coverage_checker
 			neutrals = neutralTypes.Keys.Count;
 			strengths = strongTypes.Keys.Count;
 
-			points = 4 * strengths + 2 * neutrals - weaknesses - 10 * immunities;
+			points = (4 * strengths) + (2 * neutrals) - weaknesses - (10 * immunities);
 			numTypes = gen == 1 ? 15 : gen < 6 ? 17 : 18;
 
 			tier = immunities == 0 ? weaknesses == 0 ? neutrals == 0 ? 3 : 2 : 1 : 0;
@@ -161,8 +160,8 @@ namespace coverage_checker
 			dualDoubleStrengths = dualDoubleStrongTypes.Keys.Count;
 			dualDoubleWeaknesses = dualDoubleWeakTypes.Keys.Count;
 
-			dualPoints = 8 * dualDoubleStrengths + 4 * dualStrengths + 2 * dualNeutrals
-				- dualWeaknesses - 2 * dualDoubleWeaknesses - 10 * dualImmunities;
+			dualPoints = (8 * dualDoubleStrengths) + (4 * dualStrengths) + (2 * dualNeutrals)
+				- dualWeaknesses - (2 * dualDoubleWeaknesses) - (10 * dualImmunities);
 			dualNumTypes = dualTypes.Count;
 
 			dualTier = dualImmunities == 0 ? dualDoubleWeaknesses == 0 ? dualWeaknesses == 0
@@ -178,15 +177,15 @@ namespace coverage_checker
 			immuneTextBox.Text = GenerateText(immuneTypes, GetString("immune_text"), true);
 
 			//Points
-			pointsTextBox.Text = points + "/" + 4 * numTypes;
+			pointsTextBox.Text = points + "/" + (4 * numTypes);
 
 			//Verdict
 			verdictTextBox.Text = tier switch
 			{
 				0 => GetString("tier_0_verdict"),
-				1 => GetString("tier_1_verdict"),
-				2 => GetString("tier_2_verdict"),
-				3 => GetString("tier_3_verdict"),
+				1 => GetString("tier_2_verdict"),
+				2 => GetString("tier_3_verdict"),
+				3 => GetString("tier_4_verdict"),
 				_ => "ERROR",
 			};
 
@@ -199,16 +198,16 @@ namespace coverage_checker
 			dualImmuneTextBox.Text = GenerateDualText(dualImmuneTypes, GetString("immune_text"), true);
 
 			//Points
-			dualPointsTextBox.Text = dualPoints + "/" + 8 * dualNumTypes;
+			dualPointsTextBox.Text = dualPoints + "/" + (8 * dualNumTypes);
 
 			//Verdict
 			dualVerdictTextBox.Text = dualTier switch
 			{
 				0 => GetString("tier_0_verdict"),
-				1 => GetString("tier_0.5_verdict"),
-				2 => GetString("tier_1_verdict"),
-				3 => GetString("tier_2_verdict"),
-				4 => GetString("tier_3_verdict"),
+				1 => GetString("tier_1_verdict"),
+				2 => GetString("tier_2_verdict"),
+				3 => GetString("tier_3_verdict"),
+				4 => GetString("tier_4_verdict"),
 				_ => "ERROR",
 			};
 		}
@@ -338,14 +337,12 @@ namespace coverage_checker
 
 		private void Cb_Checked(object sender, RoutedEventArgs e)
 		{
-			string s = ((CheckBox)sender).Name;
-			selectedTypes.Add(StringToType(s.Substring(0, s.Length - 3)));
+			selectedTypes.Add(StringToType(((CheckBox)sender).Name[0..^3]));
 		}
 
 		private void Cb_Unchecked(object sender, RoutedEventArgs e)
 		{
-			string s = ((CheckBox)sender).Name;
-			_ = selectedTypes.Remove(StringToType(s.Substring(0, s.Length - 3)));
+			_ = selectedTypes.Remove(StringToType(((CheckBox)sender).Name[0..^3]));
 		}
 
 		private void Ninjatom_Checked(object sender, RoutedEventArgs e)
@@ -392,17 +389,18 @@ namespace coverage_checker
 
 		private void ComboBox_LanguageChanged(object sender, SelectionChangedEventArgs e)
 		{
-			string language = ((ComboBoxItem)((ComboBox)sender).SelectedItem).Name;
-			SetLanguage(language);
+			SetLanguage(((ComboBoxItem)((ComboBox)sender).SelectedItem).Name);
 		}
 
 		private void SetLanguage(string language)
 		{
-			ResourceDictionary dict = new ResourceDictionary();
-			dict.Source = language switch
+			ResourceDictionary dict = new ResourceDictionary
 			{
-				"de_DE" => new Uri("Resources\\StringResources.de_DE.xaml", UriKind.Relative),
-				_ => new Uri("Resources\\StringResources.en_US.xaml", UriKind.Relative),
+				Source = language switch
+				{
+					"de_DE" => new Uri("Resources\\StringResources.de_DE.xaml", UriKind.Relative),
+					_ => new Uri("Resources\\StringResources.en_US.xaml", UriKind.Relative),
+				}
 			};
 			Application.Current.Resources.MergedDictionaries.Add(dict);
 		}
@@ -419,15 +417,14 @@ namespace coverage_checker
 			{
 				FindMaxScoreWithMoves(n);
 			}
-
 			Reset();
 		}
 
-		private void FindMaxScoreWithMoves(int n)
+		private void FindMaxScoreWithMoves(int numMoves)
 		{
 			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new DescendingDuplicateKeyComparer<int>());
 			int optimalTier = 0;
-			foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), n))
+			foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), numMoves))
 			{
 				selectedTypes = types;
 				Update();
@@ -442,7 +439,7 @@ namespace coverage_checker
 					result.Add(dualPoints, types);
 				}
 			}
-			StringBuilder s = new StringBuilder(GetRegEx("max_optimal_regex", optimalTier, n));
+			StringBuilder s = new StringBuilder(GetFormatString("max_optimal_format", optimalTier, numMoves));
 			_ = s.Append(" \n");
 			foreach ((int points, List<Type> types) in result)
 			{
@@ -462,21 +459,27 @@ namespace coverage_checker
 			optimumTextBox.Text = s.ToString();
 		}
 
-		private void FindMinMovesWithTier(int n)
+		private void FindMinMovesWithTier(int tier)
 		{
-			if (n >= 1)
+			if (tier > 4)
 			{
-				n++;
+				optimumTextBox.Text = GetFormatString("no_such_tier_format", tier);
+				return;
+			}
+			if (tier == 4 && gen >= 3 && gen < 6)
+			{
+				optimumTextBox.Text = GetFormatString("no_such_tier_in_gen_format", tier, gen);
+				return;
 			}
 			SortedList<int, List<Type>> result = new SortedList<int, List<Type>>(new DescendingDuplicateKeyComparer<int>());
 			int optimalTier = 0;
-			int maxMoves = 0;
-			while (optimalTier < n)
+			int numMoves = 0;
+			while (optimalTier < tier)
 			{
-				++maxMoves;
-				foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), maxMoves))
+				++numMoves;
+				foreach (List<Type> types in Subsets(TypesOfGen(gen).ToList(), numMoves))
 				{
-					if (types.Count < maxMoves)
+					if (types.Count < numMoves)
 					{
 						continue;
 					}
@@ -494,8 +497,8 @@ namespace coverage_checker
 					}
 				}
 			}
-			StringBuilder s = new StringBuilder(GetRegEx("min_optimal_regex", n, maxMoves));
-			_ = s .Append(" \n");
+			StringBuilder s = new StringBuilder(GetFormatString("min_optimal_format", tier, numMoves));
+			_ = s.Append(" \n");
 			foreach ((_, List<Type> types) in result)
 			{
 				//shedinja clause
@@ -517,12 +520,6 @@ namespace coverage_checker
 		{
 			Regex regex = new Regex("[^0-9]+");
 			e.Handled = regex.IsMatch(e.Text);
-		}
-
-		private bool HasShedinjaCoveradge(List<Type> types)
-		{
-			return types.Contains(FIRE) || types.Contains(FLYING) || types.Contains(ROCK)
-				|| types.Contains(GHOST) || types.Contains(DARK);
 		}
 	}
 }

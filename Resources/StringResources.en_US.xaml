@@ -55,13 +55,6 @@
     <system:String x:Key="except">except</system:String>
     <system:String x:Key="nothing">nothing</system:String>
     <system:String x:Key="Points">Points</system:String>
-    <!--<system:String x:Key="with">with</system:String>
-    <system:String x:Key="Optimal">Optimal</system:String>
-    <system:String x:Key="tier">tier</system:String>
-    <system:String x:Key="Tier">Tier</system:String>
-    <system:String x:Key="coveradge">coveradge</system:String>
-    <system:String x:Key="types">types</system:String>
-    <system:String x:Key="possible">possible</system:String>-->
 
     <!--sentences-->
     <system:String x:Key="strength_text">You have super effetive moves against:</system:String>
@@ -71,14 +64,16 @@
     <system:String x:Key="double_weakness_text">You only have double not very effective moves against:</system:String>
     <system:String x:Key="immune_text">You have no moves against:</system:String>
     <!--verdicts-->
-    <system:String x:Key="tier_0_verdict">TIER 0 Coverage. There are types that you can't hit!</system:String>
-    <system:String x:Key="tier_0.5_verdict">TIER 0.5 Coverage. You can barely fight against all types.</system:String>
-    <system:String x:Key="tier_1_verdict">TIER 1 Coverage. You can fight all types.</system:String>
-    <system:String x:Key="tier_2_verdict">TIER 2 Coverage! You can hit everything at least neutral.</system:String>
-    <system:String x:Key="tier_3_verdict">TIER 3 Coverage! You can hit everything super effective!</system:String>
-    <!--regex-->
-    <system:String x:Key="min_optimal_regex">Tier {0} coveradge possible with {1} types:</system:String>
-    <system:String x:Key="max_optimal_regex">Optimal tier {0} coveradge with {1} types:</system:String>
+    <system:String x:Key="tier_0_verdict">TIER 0 coverage. There are types that you can't hit!</system:String>
+    <system:String x:Key="tier_1_verdict">TIER 1 coverage. You can barely fight against all types.</system:String>
+    <system:String x:Key="tier_2_verdict">TIER 2 coverage. You can fight all types.</system:String>
+    <system:String x:Key="tier_3_verdict">TIER 3 coverage! You can hit everything at least neutral.</system:String>
+    <system:String x:Key="tier_4_verdict">TIER 4 coverage!!! You can hit everything super effective!</system:String>
+    <!--format-->
+    <system:String x:Key="min_optimal_format">Tier {0} coveradge possible with {1} types:</system:String>
+    <system:String x:Key="max_optimal_format">Optimal tier {0} coveradge with {1} types:</system:String>
+    <system:String x:Key="no_such_tier_format">There is no tier {0} coveradge.</system:String>
+    <system:String x:Key="no_such_tier_in_gen_format">There is no tier {0} coveradge in gen {1}</system:String>
 
     <!--languages-->
     <system:String x:Key="de_DE">german</system:String>
