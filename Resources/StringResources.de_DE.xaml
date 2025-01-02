@@ -55,6 +55,7 @@
     <system:String x:Key="except">außer</system:String>
     <system:String x:Key="nothing">nichts</system:String>
     <system:String x:Key="Points">Punkte</system:String>
+    <system:String x:Key="with">mit</system:String>
 
     <!--sentences-->
     <system:String x:Key="strength_text">Du hast sehr Effektive Attacken gegen:</system:String>
