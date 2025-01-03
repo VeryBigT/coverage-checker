@@ -13,4 +13,5 @@ The Coverage of a given combination of types of your available moves is rated wi
 - **tier 2**: there are mons, that resist (x0.5 dmg) all your moves
 - **tier 3**: you can hit every mon at least neutral
 - **tier 4**: you can hit every mon **super effictive**
+
 There is also a setting checking whether or not you are covered against this pesky shedninja.
