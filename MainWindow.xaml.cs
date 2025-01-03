@@ -234,7 +234,7 @@ namespace coverage_checker
 					_ = s.Append(DualTypeToString(t)).Append(", ");
 				}
 				//shedinja
-				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(selectedTypes))
+				if (shedinja && gen >= 3 && !HasShedinjaCoverage(selectedTypes))
 				{
 					s = new StringBuilder(s.ToString().Trim());
 					_ = s.Append(" ").Append(list.Count == 0
@@ -284,7 +284,7 @@ namespace coverage_checker
 					_ = s.Append(TypeToString(t)).Append(", ");
 				}
 				//shedinja
-				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(selectedTypes))
+				if (shedinja && gen >= 3 && !HasShedinjaCoverage(selectedTypes))
 				{
 					s = new StringBuilder(s.ToString().Trim());
 					_ = s.Append(" ").Append(list.Count == 0
@@ -444,7 +444,7 @@ namespace coverage_checker
 			foreach ((int points, List<Type> types) in result)
 			{
 				//shedinja clause
-				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(types))
+				if (shedinja && gen >= 3 && !HasShedinjaCoverage(types))
 				{
 					continue;
 				}
@@ -502,7 +502,7 @@ namespace coverage_checker
 			foreach ((_, List<Type> types) in result)
 			{
 				//shedinja clause
-				if (shedinja && gen >= 3 && !HasShedinjaCoveradge(types))
+				if (shedinja && gen >= 3 && !HasShedinjaCoverage(types))
 				{
 					continue;
 				}

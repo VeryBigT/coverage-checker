@@ -85,7 +85,7 @@ namespace coverage_checker
 
 	public static class TypeMethods
 	{
-		public static bool HasShedinjaCoveradge(List<Type> types)
+		public static bool HasShedinjaCoverage(List<Type> types)
 		{
 			return types.Contains(FIRE) || types.Contains(FLYING) || types.Contains(ROCK)
 				|| types.Contains(GHOST) || types.Contains(DARK);

@@ -71,10 +71,10 @@
     <system:String x:Key="tier_3_verdict">TIER 3 Coverage! Du triffst jeden Typen mindestens neutral.</system:String>
     <system:String x:Key="tier_4_verdict">TIER 4 Coverage!!! Du triffst jeden Typen sehr Effektiv!</system:String>
     <!--format-->
-    <system:String x:Key="min_optimal_format">Tier {0} Coveradge möglich mit {1} Typen:</system:String>
-    <system:String x:Key="max_optimal_format">Optimale Tier {0} Coveradge mit {1} Typen:</system:String>
-    <system:String x:Key="no_such_tier_format">Es gibt keine Tier {0} Coveradge.</system:String>
-    <system:String x:Key="no_such_tier_in_gen_format">Es gibt keine Tier {0} Coveradge in Gen {1}.</system:String>
+    <system:String x:Key="min_optimal_format">Tier {0} Coverage möglich mit {1} Typen:</system:String>
+    <system:String x:Key="max_optimal_format">Optimale Tier {0} Coverage mit {1} Typen:</system:String>
+    <system:String x:Key="no_such_tier_format">Es gibt keine Tier {0} Coverage.</system:String>
+    <system:String x:Key="no_such_tier_in_gen_format">Es gibt keine Tier {0} Coverage in Gen {1}.</system:String>
 
     <!--languages-->
     <system:String x:Key="de_DE">Deutsch</system:String>
