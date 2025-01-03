@@ -3,6 +3,7 @@ Imagine you play a Pokémon randomizer, nuzzlock challange or some brutal ROM ha
 - wich opponents can I hit super effictive?
 - are there mons that can resist both my moves or that are even immune to both?!
 - what would be the best combination of types to cover most or even all opposing types?
+
 Those questions and more can be answered by the **P**okémon **C**overage **C**hecker!
 The App gives accurate answers for **all gens** (gen 1 to gen 9) and also considers all existing **dualtypes** (also accurate per gen!).
 ## Coveradge rating
