@@ -396,11 +396,7 @@ namespace coverage_checker
 		{
 			ResourceDictionary dict = new ResourceDictionary
 			{
-				Source = language switch
-				{
-					"de_DE" => new Uri("Resources\\StringResources.de_DE.xaml", UriKind.Relative),
-					_ => new Uri("Resources\\StringResources.en_US.xaml", UriKind.Relative),
-				}
+				Source = new Uri("Resources\\Languages\\StringResources." + language + ".xaml", UriKind.Relative)
 			};
 			Application.Current.Resources.MergedDictionaries.Add(dict);
 		}

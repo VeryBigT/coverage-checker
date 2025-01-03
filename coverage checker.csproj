@@ -9,11 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="img\" />
+    <Folder Include="Main\" />
+    <Folder Include="Resources\img\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Resources\StringResources.de_DE.xaml">
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Resources\Languages\StringResources.de_DE.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
