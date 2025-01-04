@@ -1,4 +1,4 @@
-# What's the purpose?
+## What's the purpose?
 Imagine you play a Pokémon randomizer, nuzzlock challange or some brutal ROM hack. Your main mon has a dark type and a normal type move and you wonder:
 - Wich opponents can I hit super effictive?
 - Are there mons that can resist both my moves or that are even immune to both?!
