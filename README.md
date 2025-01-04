@@ -19,7 +19,7 @@ The Coverage of a given combination of types of your available moves is rated wi
 
 There is also a setting checking whether or not you are covered against this pesky Shedinja.
 ## Coverage optimizer
-You can find the "optimal" coverage for twi different scenarios:
+You can find the "optimal" coverage for two different scenarios:
 - **min move optimizer**: Find the combination with the minimum number of types needed to achieve a tier **n** (1/2/3/4) coverage.
 	- Note: There is no tier 4 coverage in gen 3 - gen 5 due to Sableye and Spiritomb not having any weaknesses in those gens.
 - **max score optimizer**: Find the best coverages (max tier, sorted by score) with a given number **n** of types.
