@@ -6,6 +6,7 @@ Imagine you play a Pokémon randomizer, nuzzlock challange or some brutal ROM ha
 
 Those questions and more can be answered by the **P**okémon **C**overage **C**hecker!
 The app gives accurate answers for **all gens** (gen 1 to gen 9) and also considers all existing **dualtypes** (also accurate per gen!).
+
 #Features
 
 ## Coverage rating
