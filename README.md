@@ -33,3 +33,5 @@ The app supports multiple languages (currently german and english).
 What type do I need to add to fix/improve my coverage?
 ## More Languages
 More languages are planned (french, spanish, japanese)
+## Multi Platform Support
+The app is planned to launch on Andriod, iOS and maybe more.
