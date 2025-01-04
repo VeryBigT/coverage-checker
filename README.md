@@ -8,7 +8,6 @@ Those questions and more can be answered by the **P**okémon **C**overage **C**h
 The app gives accurate answers for **all gens** (gen 1 to gen 9) and also considers all existing **dualtypes** (also accurate per gen!).
 
 ##Features
-
 ### Coverage rating
 The Coverage of a given combination of types of your available moves is rated with a **point score** and a verdict giving it one of four tiers:
 - **tier 0**: There are mons that are immune to all your moves.
