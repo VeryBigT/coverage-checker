@@ -26,7 +26,7 @@ You can find the "optimal" coverage for twi different scenarios:
 	- Useful if you e.g. want to find best possible coverage with one mon (therefor n = 4 moves).
 
 ## Multi Language Support
-The can Support Multiple languages (currently german and english)
+The app supports multiple languages (currently german and english).
 
 # Planned Features
 ## Coverage Fixer
