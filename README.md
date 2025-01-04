@@ -1,4 +1,5 @@
 ## What's the purpose?
+
 Imagine you play a Pokémon randomizer, nuzzlock challange or some brutal ROM hack. Your main mon has a dark type and a normal type move and you wonder:
 - Wich opponents can I hit super effictive?
 - Are there mons that can resist both my moves or that are even immune to both?!
@@ -6,7 +7,9 @@ Imagine you play a Pokémon randomizer, nuzzlock challange or some brutal ROM ha
 
 Those questions and more can be answered by the **P**okémon **C**overage **C**hecker!
 The app gives accurate answers for **all gens** (gen 1 to gen 9) and also considers all existing **dualtypes** (also accurate per gen!).
+
 ##Features
+
 ### Coverage rating
 The Coverage of a given combination of types of your available moves is rated with a **point score** and a verdict giving it one of four tiers:
 - **tier 0**: There are mons that are immune to all your moves.
